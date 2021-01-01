@@ -1,5 +1,5 @@
 import data from "./data.js"
-import {createTableElements} from "./main.js";
+import { createTableElements } from "./main.js";
 
 /*
   ALWAYS USE IMPORTED data ARRAY TO MAKE MANIPULATIONS
@@ -27,10 +27,39 @@ import {createTableElements} from "./main.js";
 
 /* RESET ACTION */
 document.querySelector("#reset").addEventListener("click", () => {
-    createTableElements(data, "allcities");
-    createTableElements([], "singlecity")
+  createTableElements(data, "allcities");
+  createTableElements([], "singlecity")
 });
 
 /* START CODING HERE */
 
+document.querySelector('#populationBigger').addEventListener("click", () => {
+  const biggerThan500Thousand = data.filter(city => city.population > 500_000);
+  createTableElements(biggerThan500Thousand, "allcities");
+})
 
+document.querySelector('#landAreaLess').addEventListener("click", () => {
+  const lessThanThousand = data.filter(city => city.landArea < 1000);
+  createTableElements(lessThanThousand, "allcities");
+})
+
+document.querySelector('#isPopulationLess').addEventListener("click", () => {
+  const isPopulationLess = data.some(city => city.population < 100_000);
+  getAnswer(isPopulationLess);
+})
+
+document.querySelector('#isLandBigger').addEventListener("click", () => {
+  const isLandBigger = data.every(city => city.population > 100);
+  getAnswer(isLandBigger);
+})
+
+document.querySelector('#selectcity').addEventListener("change", (e) => {
+  let selectedCityName = e.target.value;
+  const selectedCity = data.find(city => city.name === selectedCityName);
+  createTableElements([selectedCity], "singlecity");
+});
+
+function getAnswer(status) {
+  const answer = status ? "YES" : "NO";
+  alert(answer);
+}
